@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "module": "CommonJS",            // Set module system to CommonJS
+      "target": "ES6",                 // ES6 (or higher) target for modern JS features
+      "esModuleInterop": true,         // Enable interoperability between CommonJS and ES Modules
+      "strict": true,                  // Enable strict type-checking options
+      "outDir": "./dist",              // Output directory for compiled JS files
+      "types": ["node"],               // Include Node.js type definitions
+      "resolveJsonModule": true        // Allows importing JSON files as modules
+    },
+    "include": ["api/**/*"],            // Adjust to the path where your TypeScript files are located
+    "exclude": ["node_modules"]         // Exclude the node_modules folder from TypeScript compilation
+}  
