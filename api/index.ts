@@ -144,12 +144,12 @@ const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> 
         version: 'v4',
         auth: client as OAuth2Client, // Cast to ensure the correct type
     });
-    const spreadsheetId = '1mIfVTFWx-G6lzR8lB8TnY2NzZtC7diNqWlS-atNw37k';
+    const spreadsheetId = '1nznkNByOAtJvTI_si_Ft0GAiEuYeyemaR6gRkJbIrSU';
 
     // Append data to the Google Sheets
     await googleSheets.spreadsheets.values.append({
         spreadsheetId,
-        range: 'Sheet2!A:F',
+        range: 'Sheet1!A:F',
         valueInputOption: 'USER_ENTERED',
         requestBody: {
             values: [
