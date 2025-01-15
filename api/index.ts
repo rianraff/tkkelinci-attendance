@@ -105,7 +105,7 @@ const handlePostRequest = async (req: Request, res: Response): Promise<void> => 
 
 // Separate the handler function to avoid async issues in Express's `post` method
 const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> => {
-    const { name, email, class_type, keterangan, latitude, longitude } = req.body;
+    const { name, email, class_type, note, latitude, longitude } = req.body;
 
     // Check if location is within 100 meters
     if (latitude && longitude) {
@@ -153,7 +153,7 @@ const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> 
         valueInputOption: 'USER_ENTERED',
         requestBody: {
             values: [
-                [date, time, name, email, class_type, keterangan],
+                [date, time, name, email, class_type, note],
             ],
         },
     });
