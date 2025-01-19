@@ -69,6 +69,17 @@
             background-color: #45a049;
         }
 
+        .radio-horizontal {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Atur jarak antar tombol */
+        }
+        .radio-horizontal label {
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Jarak antara tombol radio dan teks */
+        }
+
         .radio-group {
             text-align: left;
         }
@@ -84,17 +95,17 @@
             </div>
             <div class="radio-group">
                 <label>Piket</label>
-                <div style="display: flex; align-items: center; gap: 10px; margin-top: 0.5rem;">
-                    <div>
+                <div class="radio-horizontal">
+                    <label>
                         <input type="radio" name="piket" id="piketYes" value="Yes">
-                        <label for="piketYes">Yes</label>
-                    </div>
-                    <div>
+                        Yes
+                    </label>
+                    <label>
                         <input type="radio" name="piket" id="piketNo" value="No">
-                        <label for="piketNo">No</label>
-                    </div>
+                        No
+                    </label>
                 </div>
-            </div>            
+            </div>                      
             <div>
                 <label for="note">Note</label>
                 <input type="text" name="note" id="note">
