@@ -105,7 +105,7 @@ const handlePostRequest = async (req: Request, res: Response): Promise<void> => 
 
 // Separate the handler function to avoid async issues in Express's `post` method
 const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> => {
-    const { name, email, class_type, note, latitude, longitude } = req.body;
+    const { name, piket, note, latitude, longitude } = req.body;
 
     // Check if location is within 100 meters
     if (latitude && longitude) {
@@ -146,6 +146,9 @@ const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> 
     });
     const spreadsheetId = '1nznkNByOAtJvTI_si_Ft0GAiEuYeyemaR6gRkJbIrSU';
 
+    // Prepare the data to append to the Google Sheets
+    const piketValue = piket === 'Yes' ? 1 : 0; // Convert piket to numeric value
+
     // Append data to the Google Sheets
     await googleSheets.spreadsheets.values.append({
         spreadsheetId,
@@ -153,7 +156,7 @@ const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> 
         valueInputOption: 'USER_ENTERED',
         requestBody: {
             values: [
-                [date, time, name, email, class_type, note],
+                [date, time, name, piketValue, note],
             ],
         },
     });

@@ -47,7 +47,7 @@
             color: #555;
         }
 
-        input, select, button {
+        input, button {
             width: 100%;
             margin-top: 0.5rem;
             padding: 0.7rem;
@@ -69,6 +69,9 @@
             background-color: #45a049;
         }
 
+        .radio-group {
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -79,18 +82,16 @@
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" required>
             </div>
-            <div>
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" required>
-            </div>
-            <div>
-                <label for="class_type">Class</label>
-                <select name="class_type" id="class_type" required>
-                    <option value="PG-Blue">PG-Blue</option>
-                    <option value="PG-Yellow">PG-Yellow</option>
-                    <option value="TKA">TKA</option>
-                    <option value="TKB">TKB</option>
-                </select>
+            <div class="radio-group">
+                <label>Piket</label>
+                <div>
+                    <input type="radio" name="piket" id="piketYes" value="Yes">
+                    <label for="piketYes">Yes</label>
+                </div>
+                <div>
+                    <input type="radio" name="piket" id="piketNo" value="No">
+                    <label for="piketNo">No</label>
+                </div>
             </div>
             <div>
                 <label for="note">Note</label>
@@ -107,15 +108,41 @@
     <script>
         document.getElementById('submissionForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form from submitting immediately
-            
+
+            // Get the value of the selected radio button for piket
+            const piketYes = document.getElementById('piketYes');
+            const piketNo = document.getElementById('piketNo');
+            let piket = null;
+
+            if (piketYes.checked) {
+                piket = piketYes.value;
+            } else if (piketNo.checked) {
+                piket = piketNo.value;
+            }
+
+            if (!piket) {
+                alert("Please select an option for piket.");
+                return;
+            }
+
+            // Append the piket value to the form data
+            const formData = new FormData(this);
+            formData.append('piket', piket);
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     // Set latitude and longitude values in the form
-                    document.getElementById('latitude').value = position.coords.latitude;
-                    document.getElementById('longitude').value = position.coords.longitude;
+                    formData.set('latitude', position.coords.latitude);
+                    formData.set('longitude', position.coords.longitude);
 
-                    // Now submit the form
-                    event.target.submit();
+                    // Submit the form data manually via fetch
+                    fetch(this.action, {
+                        method: this.method,
+                        body: formData,
+                    })
+                    .then(response => response.text())
+                    .then(result => alert(result))
+                    .catch(error => alert('Submission failed: ' + error.message));
                 }, error => {
                     alert("Unable to retrieve your location. Please enable location services.");
                 });
