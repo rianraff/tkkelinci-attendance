@@ -149,17 +149,11 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     // Set latitude and longitude values in the form
-                    formData.set('latitude', position.coords.latitude);
-                    formData.set('longitude', position.coords.longitude);
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
 
-                    // Submit the form data manually via fetch
-                    fetch(this.action, {
-                        method: this.method,
-                        body: formData,
-                    })
-                    .then(response => response.text())
-                    .then(result => alert(result))
-                    .catch(error => alert('Submission failed: ' + error.message));
+                    // Now submit the form
+                    event.target.submit();
                 }, error => {
                     alert("Unable to retrieve your location. Please enable location services.");
                 });
