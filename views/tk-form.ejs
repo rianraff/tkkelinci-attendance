@@ -74,6 +74,7 @@
             align-items: center;
             gap: 20px; /* Atur jarak antar tombol */
         }
+
         .radio-horizontal label {
             display: flex;
             align-items: center;
@@ -81,7 +82,10 @@
         }
 
         .radio-group {
-            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px; /* Atur jarak bawah jika diperlukan */
         }
     </style>
 </head>
@@ -105,7 +109,7 @@
                         No
                     </label>
                 </div>
-            </div>                      
+            </div>                  
             <div>
                 <label for="note">Note</label>
                 <input type="text" name="note" id="note">
