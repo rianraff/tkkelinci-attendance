@@ -33,7 +33,7 @@
             max-width: 450px; /* Ensures the form doesn't get too wide */
             border-radius: 8px;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            text-align: left; /* Align all text to the left */
             overflow: hidden; /* Prevents content from spilling outside */
         }
         
@@ -42,45 +42,54 @@
             font-size: 1.5rem;
             margin-bottom: 3rem;
             color: #444;
+            text-align: center; /* Align title to the left */
         }
         
         /* Consistent alignment for all rows */
         .form-row {
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
+            flex-direction: column; /* Stack label and input vertically */
+            align-items: flex-start; /* Align both label and input to the left */
             margin-bottom: 1rem;
-            gap: 1rem;
-            flex-wrap: wrap; /* Ensures content wraps instead of overflowing */
+            width: 100%; /* Allow the radio button container to grow to 100% */
         }
         
         /* Labels with fixed width */
         .form-row label {
-            flex: 0 0 120px; /* Fixed width for alignment */
             text-align: left;
             font-size: 0.9rem;
             color: #555;
             word-wrap: break-word; /* Breaks long words */
+            margin-bottom: 0.5rem; /* Space between label and input */
         }
         
         /* Inputs and select fields */
         .form-row input,
         .form-row select {
-            flex: 1; /* Fields take the remaining width */
             padding: 0.7rem;
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 0.9rem;
-            max-width: 100%; /* Prevents inputs from overflowing their container */
+            width: 100%; /* Ensure the fields take up full width */
         }
         
         /* Radio groups alignment */
         .radio-horizontal {
             display: flex; /* Align items horizontally */
-            gap: 20px; /* Add spacing between radio buttons */
+            gap: 16px; /* Add small spacing between radio buttons and labels */
             align-items: center; /* Vertically align radio buttons and labels */
             justify-content: flex-start; /* Align items to the left */
             flex-wrap: nowrap; /* Prevent wrapping of radio buttons */
+            width: 100%; /* Ensure radio buttons take the full width of the container */
+            box-sizing: border-box; /* Ensure padding and borders are included in the width calculation */
+        }
+
+        .radio-horizontal label {
+            display: flex;
+            justify-content: flex-start; /* Align radio buttons and text horizontally */
+            align-items: center; /* Vertically align the text and radio button */
+            width: auto; /* Allow label to fit content */
+            gap: 4px; /* Small space between the radio button and label text */
         }
         
         /* Button styling */
@@ -125,11 +134,11 @@
                 <div class="radio-horizontal">
                     <label>
                         <input type="radio" name="absensi" id="kedatangan" value="Kedatangan" required>
-                        Kedatangan
+                        Datang
                     </label>
                     <label>
                         <input type="radio" name="absensi" id="kepulangan" value="Kepulangan">
-                        Kepulangan
+                        Pulang
                     </label>
                 </div>
             </div>
@@ -152,7 +161,7 @@
                     <option value="WANDI NURHIKMAT">WANDI NURHIKMAT</option>
                 </select>
             </div>            
-    
+            
             <div class="form-row hidden" id="piketGroup">
                 <label><strong>Piket</strong></label>
                 <div class="radio-horizontal">
