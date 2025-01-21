@@ -69,6 +69,10 @@
             background-color: #45a049;
         }
 
+        .hidden {
+            display: none;
+        }
+
         .radio-horizontal {
             display: flex;
             align-items: center;
@@ -95,13 +99,26 @@
         <form id="submissionForm" action="/tk" method="POST">
             <div>
                 <label for="name">Name</label>
-                <input type="text" name="name" id="name" required>
+                <select name="name" id="name" required>
+                    <option value="AI SURYATI YULIANNI">AI SURYATI YULIANNI</option>
+                    <option value="KHAIRIYAH">KHAIRIYAH</option>
+                    <option value="IIN SHOLIHAH">IIN SHOLIHAH</option>
+                    <option value="HIKMAH AULIA">HIKMAH AULIA</option>
+                    <option value="HAYATUN NUFUS">HAYATUN NUFUS</option>
+                    <option value="WANDI NURHIKMAT">WANDI NURHIKMAT</option>
+                    <option value="AYU NASTITI PERMATASARI">AYU NASTITI PERMATASARI</option>
+                    <option value="NORITA">NORITA</option>
+                    <option value="NUR AMALIA ZAHRA">NUR AMALIA ZAHRA</option>
+                    <option value="PUTRI JANUARTI">PUTRI JANUARTI</option>
+                    <option value="NUR SYAHLA">NUR SYAHLA</option>
+                    <option value="ARVIERA AYU BRILLIANTI">ARVIERA AYU BRILLIANTI</option>
+                </select>
             </div>
-            <div class="radio-group">
+            <div class="radio-group" id="piketGroup">
                 <label>Piket</label>
                 <div class="radio-horizontal">
                     <label>
-                        <input type="radio" name="piket" id="piketYes" value="Yes">
+                        <input type="radio" name="piket" id="piketYes" value="Yes" required>
                         Yes
                     </label>
                     <label>
@@ -112,7 +129,7 @@
             </div>                  
             <div>
                 <label for="note">Note</label>
-                <input type="text" name="note" id="note">
+                <input type="text" name="note" id="note" placeholder="Enter additional notes (optional)">
             </div>
             <!-- Hidden fields to store latitude and longitude -->
             <input type="hidden" name="latitude" id="latitude">
@@ -126,39 +143,34 @@
         document.getElementById('submissionForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form from submitting immediately
 
-            // Get the value of the selected radio button for piket
-            const piketYes = document.getElementById('piketYes');
-            const piketNo = document.getElementById('piketNo');
-            let piket = null;
-
-            if (piketYes.checked) {
-                piket = piketYes.value;
-            } else if (piketNo.checked) {
-                piket = piketNo.value;
-            }
-
-            if (!piket) {
-                alert("Please select an option for piket.");
-                return;
-            }
-
-            // Append the piket value to the form data
             const formData = new FormData(this);
-            formData.append('piket', piket);
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
-                    // Set latitude and longitude values in the form
                     document.getElementById('latitude').value = position.coords.latitude;
                     document.getElementById('longitude').value = position.coords.longitude;
 
-                    // Now submit the form
+                    // Disable button to prevent multiple submissions
+                    const button = event.target.querySelector('button');
+                    button.disabled = true;
+                    button.textContent = "Submitting...";
+
+                    // Submit form after geolocation is added
                     event.target.submit();
                 }, error => {
-                    alert("Unable to retrieve your location. Please enable location services.");
+                    alert("Unable to retrieve your location. The form will be submitted without location data.");
+                    event.target.submit();
                 });
             } else {
                 alert("Geolocation is not supported by this browser.");
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const hours = now.getHours();
+            if (hours >= 9) {
+                document.getElementById('piketGroup').classList.add('hidden');
             }
         });
     </script>
