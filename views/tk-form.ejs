@@ -103,30 +103,43 @@
 </head>
 <body>
     <div class="form-container">
-        <h1>Absensi Kehadiran Kakak TK Kelinci</h1>
+        <h1>Absensi Kakak TK Kelinci</h1>
         <form id="submissionForm" action="/tk" method="POST">
+            <div class="radio-group" id="absensiGroup">
+                <label>Absensi</label>
+                <div class="radio-horizontal">
+                    <label>
+                        <input type="radio" name="absensi" id="kedatangan" value="Kedatangan" required>
+                        Kedatangan
+                    </label>
+                    <label>
+                        <input type="radio" name="absensi" id="kepulangan" value="Kepulangan">
+                        Kepulangan
+                    </label>
+                </div>
+            </div>               
             <div>
                 <label for="name">Name</label>
                 <select name="name" id="name" required>
                     <option value="AI SURYATI YULIANNI">AI SURYATI YULIANNI</option>
-                    <option value="KHAIRIYAH">KHAIRIYAH</option>
-                    <option value="IIN SHOLIHAH">IIN SHOLIHAH</option>
-                    <option value="HIKMAH AULIA">HIKMAH AULIA</option>
-                    <option value="HAYATUN NUFUS">HAYATUN NUFUS</option>
-                    <option value="WANDI NURHIKMAT">WANDI NURHIKMAT</option>
+                    <option value="ARVIERA AYU BRILLIANTI">ARVIERA AYU BRILLIANTI</option>
                     <option value="AYU NASTITI PERMATASARI">AYU NASTITI PERMATASARI</option>
+                    <option value="HAYATUN NUFUS">HAYATUN NUFUS</option>
+                    <option value="HIKMAH AULIA">HIKMAH AULIA</option>
+                    <option value="IIN SHOLIHAH">IIN SHOLIHAH</option>
+                    <option value="KHAIRIYAH">KHAIRIYAH</option>
                     <option value="NORITA">NORITA</option>
                     <option value="NUR AMALIA ZAHRA">NUR AMALIA ZAHRA</option>
-                    <option value="PUTRI JANUARTI">PUTRI JANUARTI</option>
                     <option value="NUR SYAHLA">NUR SYAHLA</option>
-                    <option value="ARVIERA AYU BRILLIANTI">ARVIERA AYU BRILLIANTI</option>
+                    <option value="PUTRI JANUARTI">PUTRI JANUARTI</option>
+                    <option value="WANDI NURHIKMAT">WANDI NURHIKMAT</option>
                 </select>
             </div>
-            <div class="radio-group" id="piketGroup">
+            <div class="radio-group hidden" id="piketGroup">
                 <label>Piket</label>
                 <div class="radio-horizontal">
                     <label>
-                        <input type="radio" name="piket" id="piketYes" value="Yes" required>
+                        <input type="radio" name="piket" id="piketYes" value="Yes">
                         Yes
                     </label>
                     <label>
@@ -137,7 +150,7 @@
             </div>                  
             <div>
                 <label for="note">Note</label>
-                <input type="text" name="note" id="note" placeholder="Enter additional notes (optional)">
+                <input type="text" name="note" id="note">
             </div>
             <!-- Hidden fields to store latitude and longitude -->
             <input type="hidden" name="latitude" id="latitude">
@@ -145,7 +158,6 @@
 
             <button type="submit">Submit</button>
         </form>
-        <div class="server-time" id="serverTime"></div>
     </div>
 
     <script>
@@ -176,16 +188,21 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            const serverTime = document.getElementById('serverTime');
-            const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const kedatanganRadio = document.getElementById('kedatangan');
+            const kepulanganRadio = document.getElementById('kepulangan');
+            const piketGroup = document.getElementById('piketGroup');
 
-            serverTime.textContent = `Server Time: ${now.toLocaleString()} (${timeZone})`;
+            kedatanganRadio.addEventListener('change', function() {
+                if (kedatanganRadio.checked) {
+                    piketGroup.classList.remove('hidden');
+                }
+            });
 
-            const hours = now.getHours();
-            if (hours >= 9) {
-                document.getElementById('piketGroup').classList.add('hidden');
-            }
+            kepulanganRadio.addEventListener('change', function() {
+                if (kepulanganRadio.checked) {
+                    piketGroup.classList.add('hidden');
+                }
+            });
         });
     </script>
 </body>
