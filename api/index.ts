@@ -104,7 +104,13 @@ const handlePostRequest = async (req: Request, res: Response): Promise<void> => 
 };
 
 const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> => {
-    const { name, piket, note, latitude, longitude } = req.body;
+    const { absensi, name, piket, note, latitude, longitude } = req.body;
+
+    // Ensure absensi value is present
+    if (!absensi) {
+        res.status(400).send("Submission failed: Absensi is required.");
+        return;
+    }
 
     // Check if location is within 100 meters
     if (latitude && longitude) {
@@ -127,10 +133,6 @@ const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> 
 
     const date = currentDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
     const time = currentDate.toISOString().split('T')[1].split('.')[0]; // Format: HH:mm:ss
-
-    // Determine check-in or check-out based on the time
-    const hour = currentDate.getHours();
-    const checkinout = hour < 9 ? "checkin" : "checkout";
 
     // Google Sheets authentication
     const auth = new google.auth.GoogleAuth({
@@ -159,14 +161,13 @@ const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> 
         valueInputOption: 'USER_ENTERED',
         requestBody: {
             values: [
-                [date, time, name, piketValue, checkinout, note],
+                [date, time, name, piketValue, absensi, note],
             ],
         },
     });
 
     res.send("Form submitted successfully"); // Send success response
 };
-
 
 // Now pass the handler to app.post
 app.post('/', handlePostRequest);

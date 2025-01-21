@@ -9,10 +9,10 @@
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            box-sizing: border-box; /* Includes padding and border in element's total width/height */
             font-family: Arial, sans-serif;
         }
-
+        
         /* Centering and layout styles */
         body {
             display: flex;
@@ -22,91 +22,106 @@
             background-color: #f3f4f6;
             color: #333;
             flex-direction: column;
+            padding: 1rem; /* Extra padding to avoid content hitting screen edges */
         }
-
+        
         /* Form container */
         .form-container {
             background-color: #fff;
             padding: 2rem;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px; /* Ensures the form doesn't get too wide */
             border-radius: 8px;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
+            overflow: hidden; /* Prevents content from spilling outside */
         }
-
+        
         /* Title styling */
         h1 {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 3rem;
             color: #444;
         }
-
-        /* Form input and button styling */
-        label {
+        
+        /* Consistent alignment for all rows */
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+            flex-wrap: wrap; /* Ensures content wraps instead of overflowing */
+        }
+        
+        /* Labels with fixed width */
+        .form-row label {
+            flex: 0 0 120px; /* Fixed width for alignment */
+            text-align: left;
             font-size: 0.9rem;
             color: #555;
+            word-wrap: break-word; /* Breaks long words */
         }
-
-        input, select, button {
-            width: 100%;
-            margin-top: 0.5rem;
+        
+        /* Inputs and select fields */
+        .form-row input,
+        .form-row select {
+            flex: 1; /* Fields take the remaining width */
             padding: 0.7rem;
             border-radius: 5px;
             border: 1px solid #ccc;
-            margin-bottom: 1rem;
             font-size: 0.9rem;
+            max-width: 100%; /* Prevents inputs from overflowing their container */
         }
-
+        
+        /* Radio groups alignment */
+        .radio-horizontal {
+            display: flex; /* Align items horizontally */
+            gap: 20px; /* Add spacing between radio buttons */
+            align-items: center; /* Vertically align radio buttons and labels */
+            justify-content: flex-start; /* Align items to the left */
+            flex-wrap: nowrap; /* Prevent wrapping of radio buttons */
+        }
+        
+        /* Button styling */
         button {
+            width: 100%;
             background-color: #4CAF50;
             color: white;
             font-weight: bold;
+            padding: 0.7rem;
+            border-radius: 5px;
+            border: none;
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
+        
         button:hover {
             background-color: #45a049;
         }
-
+        
+        /* Hidden elements */
         .hidden {
-            display: none;
+            display: none !important;
         }
 
-        .radio-horizontal {
-            display: flex;
-            align-items: center;
-            gap: 20px; /* Atur jarak antar tombol */
+        /* Style for the placeholder option */
+        #name option:first-child {
+            color: gray; /* Set text color to gray */
         }
-
-        .radio-horizontal label {
-            display: flex;
-            align-items: center;
-            gap: 5px; /* Jarak antara tombol radio dan teks */
+        
+        /* Optional: Add lighter gray for disabled options */
+        #name option:disabled {
+            color: gray;
         }
-
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px; /* Atur jarak bawah jika diperlukan */
-        }
-
-        /* Server time display */
-        .server-time {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #555;
-        }
-    </style>
+    </style>            
 </head>
 <body>
     <div class="form-container">
         <h1>Absensi Kakak TK Kelinci</h1>
         <form id="submissionForm" action="/tk" method="POST">
-            <div class="radio-group" id="absensiGroup">
-                <label>Absensi</label>
+            <div class="form-row" id="absensiGroup">
+                <label><strong>Absensi</strong></label>
                 <div class="radio-horizontal">
                     <label>
                         <input type="radio" name="absensi" id="kedatangan" value="Kedatangan" required>
@@ -117,10 +132,12 @@
                         Kepulangan
                     </label>
                 </div>
-            </div>               
-            <div>
-                <label for="name">Name</label>
+            </div>
+            
+            <div class="form-row">
+                <label for="name"><strong>Name</strong></label>
                 <select name="name" id="name" required>
+                    <option value="" disabled selected>Pilih nama</option>
                     <option value="AI SURYATI YULIANNI">AI SURYATI YULIANNI</option>
                     <option value="ARVIERA AYU BRILLIANTI">ARVIERA AYU BRILLIANTI</option>
                     <option value="AYU NASTITI PERMATASARI">AYU NASTITI PERMATASARI</option>
@@ -134,9 +151,10 @@
                     <option value="PUTRI JANUARTI">PUTRI JANUARTI</option>
                     <option value="WANDI NURHIKMAT">WANDI NURHIKMAT</option>
                 </select>
-            </div>
-            <div class="radio-group hidden" id="piketGroup">
-                <label>Piket</label>
+            </div>            
+    
+            <div class="form-row hidden" id="piketGroup">
+                <label><strong>Piket</strong></label>
                 <div class="radio-horizontal">
                     <label>
                         <input type="radio" name="piket" id="piketYes" value="Yes">
@@ -147,39 +165,39 @@
                         No
                     </label>
                 </div>
-            </div>                  
-            <div>
-                <label for="note">Note</label>
-                <input type="text" name="note" id="note">
             </div>
-            <!-- Hidden fields to store latitude and longitude -->
+    
+            <div class="form-row">
+                <label for="note"><strong>Note</strong></label>
+                <input type="text" name="note" id="note" placeholder="Tulis catatan" style="color: gray;">
+            </div>
+    
             <input type="hidden" name="latitude" id="latitude">
             <input type="hidden" name="longitude" id="longitude">
-
+    
             <button type="submit">Submit</button>
         </form>
-    </div>
+    </div>    
 
     <script>
         document.getElementById('submissionForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form from submitting immediately
+            event.preventDefault();
 
             const formData = new FormData(this);
+            const button = event.target.querySelector('button');
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     document.getElementById('latitude').value = position.coords.latitude;
                     document.getElementById('longitude').value = position.coords.longitude;
 
-                    // Disable button to prevent multiple submissions
-                    const button = event.target.querySelector('button');
                     button.disabled = true;
                     button.textContent = "Submitting...";
-
-                    // Submit form after geolocation is added
                     event.target.submit();
-                }, error => {
+                }, () => {
                     alert("Unable to retrieve your location. The form will be submitted without location data.");
+                    button.disabled = true;
+                    button.textContent = "Submitting...";
                     event.target.submit();
                 });
             } else {
@@ -192,6 +210,8 @@
             const kepulanganRadio = document.getElementById('kepulangan');
             const piketGroup = document.getElementById('piketGroup');
 
+            piketGroup.classList.add('hidden');
+
             kedatanganRadio.addEventListener('change', function() {
                 if (kedatanganRadio.checked) {
                     piketGroup.classList.remove('hidden');
@@ -201,6 +221,9 @@
             kepulanganRadio.addEventListener('change', function() {
                 if (kepulanganRadio.checked) {
                     piketGroup.classList.add('hidden');
+                    // Reset piket radio buttons
+                    document.getElementById('piketYes').checked = false;
+                    document.getElementById('piketNo').checked = false;
                 }
             });
         });
