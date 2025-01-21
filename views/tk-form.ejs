@@ -21,6 +21,7 @@
             min-height: 100vh;
             background-color: #f3f4f6;
             color: #333;
+            flex-direction: column;
         }
 
         /* Form container */
@@ -47,7 +48,7 @@
             color: #555;
         }
 
-        input, button {
+        input, select, button {
             width: 100%;
             margin-top: 0.5rem;
             padding: 0.7rem;
@@ -90,6 +91,13 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 20px; /* Atur jarak bawah jika diperlukan */
+        }
+
+        /* Server time display */
+        .server-time {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #555;
         }
     </style>
 </head>
@@ -137,6 +145,7 @@
 
             <button type="submit">Submit</button>
         </form>
+        <div class="server-time" id="serverTime"></div>
     </div>
 
     <script>
@@ -168,6 +177,11 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
+            const serverTime = document.getElementById('serverTime');
+            const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+            serverTime.textContent = `Server Time: ${now.toLocaleString()} (${timeZone})`;
+
             const hours = now.getHours();
             if (hours >= 9) {
                 document.getElementById('piketGroup').classList.add('hidden');
