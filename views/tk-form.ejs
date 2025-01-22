@@ -183,38 +183,53 @@
     
             <input type="hidden" name="latitude" id="latitude">
             <input type="hidden" name="longitude" id="longitude">
+            <input type="hidden" name="ip" id="ip"> <!-- Hidden field for IP -->
     
             <button type="submit">Submit</button>
         </form>
     </div>    
 
     <script>
-        document.getElementById('submissionForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const formData = new FormData(this);
-            const button = event.target.querySelector('button');
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    document.getElementById('latitude').value = position.coords.latitude;
-                    document.getElementById('longitude').value = position.coords.longitude;
-
-                    button.disabled = true;
-                    button.textContent = "Submitting...";
-                    event.target.submit();
-                }, () => {
-                    alert("Unable to retrieve your location. The form will be submitted without location data.");
-                    button.disabled = true;
-                    button.textContent = "Submitting...";
-                    event.target.submit();
-                });
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
+            const submissionForm = document.getElementById('submissionForm');
+            const ipField = document.getElementById('ip');
+
+            // Fetch IP address
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    ipField.value = data.ip; // Assign IP address to the hidden input
+                })
+                .catch(error => console.error('Error fetching IP:', error));
+
+            // Handle form submission
+            submissionForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const button = event.target.querySelector('button');
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        document.getElementById('latitude').value = position.coords.latitude;
+                        document.getElementById('longitude').value = position.coords.longitude;
+
+                        button.disabled = true;
+                        button.textContent = "Submitting...";
+                        event.target.submit();
+                    }, () => {
+                        alert("Unable to retrieve your location. The form will be submitted without location data.");
+                        button.disabled = true;
+                        button.textContent = "Submitting...";
+                        event.target.submit();
+                    });
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                    button.disabled = true;
+                    button.textContent = "Submitting...";
+                    event.target.submit();
+                }
+            });
+
+            // Show/hide Piket Group based on Absensi selection
             const kedatanganRadio = document.getElementById('kedatangan');
             const kepulanganRadio = document.getElementById('kepulangan');
             const piketGroup = document.getElementById('piketGroup');
@@ -230,7 +245,6 @@
             kepulanganRadio.addEventListener('change', function() {
                 if (kepulanganRadio.checked) {
                     piketGroup.classList.add('hidden');
-                    // Reset piket radio buttons
                     document.getElementById('piketYes').checked = false;
                     document.getElementById('piketNo').checked = false;
                 }

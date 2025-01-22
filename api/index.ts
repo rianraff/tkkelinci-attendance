@@ -104,7 +104,7 @@ const handlePostRequest = async (req: Request, res: Response): Promise<void> => 
 };
 
 const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> => {
-    const { absensi, name, piket, note, latitude, longitude } = req.body;
+    const { absensi, name, piket, note, latitude, longitude, ip } = req.body;
 
     // Ensure absensi value is present
     if (!absensi) {
@@ -161,7 +161,7 @@ const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> 
         valueInputOption: 'USER_ENTERED',
         requestBody: {
             values: [
-                [date, time, name, piketValue, absensi, note],
+                [date, time, name, piketValue, absensi, note, ip],
             ],
         },
     });
