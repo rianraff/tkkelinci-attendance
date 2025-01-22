@@ -152,7 +152,7 @@ const handlePostRequest_tk = async (req: Request, res: Response): Promise<void> 
     const spreadsheetId = '1nznkNByOAtJvTI_si_Ft0GAiEuYeyemaR6gRkJbIrSU';
 
     // Prepare the data to append to the Google Sheets
-    const piketValue = piket === 'Yes' ? 'Piket' : 'Tidak Piket'; // Convert piket to numeric value
+    const piketValue = piket === 'Yes' ? 'Piket' : ''; // Convert piket to numeric value
 
     // Append data to the Google Sheets
     await googleSheets.spreadsheets.values.append({
