@@ -20,7 +20,7 @@ app.use(express.json());
 
 const TARGET_LATITUDE = -6.327211640630863;
 const TARGET_LONGITUDE = 106.79588365525132;
-const MAX_DISTANCE_METERS = 100;
+const MAX_DISTANCE_METERS = 50;
 
 function getDistanceFromLatLonInMeters(lat1: number, lon1: number, lat2: number, lon2: number) {
     const R = 6371e3; // Radius of Earth in meters
