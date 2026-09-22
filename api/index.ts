@@ -93,6 +93,7 @@ const handlePostRequest = async (req: Request, res: Response): Promise<void> => 
         spreadsheetId,
         range: 'Sheet1!A:F',
         valueInputOption: 'USER_ENTERED',
+        insertDataOption: 'INSERT_ROWS',
         requestBody: {
             values: [
                 [date, time, name, email, class_type, partner],
